@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.13)
 
 include(FetchContent)
 include("cmake/HunterGate.cmake")
 
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.23.103.tar.gz"
-    SHA1 "0b8c31bfdf0fd2fa87b4f743aabcd73904afa256"
+    URL "https://github.com/cpp-pm/hunter/archive/ead00a62a9a05d36f3d376889360b379d9046ba1.tar.gz"
+    SHA1 "7456937b43b9071498ba521fda9daafd931baa4a"
 )
 
 project(SchwarzwaldRoot)
