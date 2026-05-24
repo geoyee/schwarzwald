@@ -740,6 +740,14 @@ run_conversion(const ConverterArguments& args)
   UIState ui_state;
   TerminalUI ui{ &ui_state };
 
+  auto& progress_reporter = args.external_progress_reporter
+                              ? *args.external_progress_reporter
+                              : ui_state.get_progress_reporter();
+
+  if (args.stop_source) {
+    progress_reporter.stop_source = args.stop_source;
+  }
+
   std::atomic_bool draw_ui = true;
   std::thread ui_thread{ [&ui, &draw_ui]() {
     while (draw_ui) {
@@ -751,13 +759,13 @@ run_conversion(const ConverterArguments& args)
   prepare_conversion(args.source_folder, args.output_folder);
   switch (args.output_format) {
     case OutputFormat::CZM_3DTILES:
-      convert_to_3dtiles(args, ui_state.get_progress_reporter());
+      convert_to_3dtiles(args, progress_reporter);
       break;
     case OutputFormat::LAS:
-      convert_to_las(args, ui_state.get_progress_reporter(), Compressed::No);
+      convert_to_las(args, progress_reporter, Compressed::No);
       break;
     case OutputFormat::LAZ:
-      convert_to_las(args, ui_state.get_progress_reporter(), Compressed::Yes);
+      convert_to_las(args, progress_reporter, Compressed::Yes);
       break;
     default:
       break;

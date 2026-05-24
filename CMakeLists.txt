@@ -36,6 +36,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/build/Release)
 add_subdirectory(schwarzwald/util)
 add_subdirectory(schwarzwald/core)
 add_subdirectory(schwarzwald/executable)
+add_subdirectory(schwarzwald/service)
 add_subdirectory(schwarzwald/test)
 add_subdirectory(schwarzwald/benchmark)
 

@@ -1,10 +1,13 @@
 #pragma once
 
+#include <atomic>
 #include <optional>
 #include <string>
 
 #include "pointcloud/PointAttributes.h"
 #include "util/Definitions.h"
+
+struct ProgressReporter;
 
 struct ConverterArguments
 {
@@ -15,6 +18,8 @@ struct ConverterArguments
   std::optional<std::string> source_projection;
   std::optional<uint32_t> max_depth;
   bool delete_source_files;
+  std::atomic<bool>* stop_source = nullptr;
+  ProgressReporter* external_progress_reporter = nullptr;
 };
 
 /**

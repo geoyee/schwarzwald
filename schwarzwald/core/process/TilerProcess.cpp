@@ -605,7 +605,12 @@ TilerProcess::run()
 
   auto thread_counts = calculate_actual_thread_counts(dataset_metadata);
 
-  auto& progress_reporter = _ui_state.get_progress_reporter();
+  auto& progress_reporter = _args.external_progress_reporter
+                             ? *_args.external_progress_reporter
+                             : _ui_state.get_progress_reporter();
+  if (_args.stop_source) {
+    progress_reporter.stop_source = _args.stop_source;
+  }
   progress_reporter.register_progress_counter<size_t>(progress::LOADING,
                                                       total_points_count);
   progress_reporter.register_progress_counter<size_t>(progress::INDEXING,

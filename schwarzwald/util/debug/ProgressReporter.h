@@ -3,6 +3,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <unordered_map>
 #include <variant>
 
@@ -29,6 +30,8 @@ using ProgressCounter_t =
  */
 struct ProgressReporter {
 
+  std::atomic<bool>* stop_source = nullptr;
+
   template <typename T>
   void register_progress_counter(const std::string &name, T max_progress) {
     std::lock_guard<std::mutex> lock{_lock};
@@ -38,6 +41,9 @@ struct ProgressReporter {
 
   template <typename T>
   void increment_progress(const std::string &name, T increment) {
+    if (stop_source && stop_source->load()) {
+      throw std::runtime_error("Job stopped by user request");
+    }
     auto &counter = get_progress_counter<T>(name);
     counter.increment_by(increment);
   }

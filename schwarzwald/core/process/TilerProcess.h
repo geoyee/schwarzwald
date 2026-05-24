@@ -9,6 +9,7 @@
 #include "util/Error.h"
 #include <terminal/TerminalUI.h>
 
+#include <atomic>
 #include <cstdint>
 #include <experimental/filesystem>
 #include <optional>
@@ -41,6 +42,8 @@ struct TilerProcess
     util::IgnoreErrors errors_to_ignore;
     TilingStrategy tiling_strategy;
     ThreadConfig thread_config;
+    std::atomic<bool>* stop_source = nullptr;
+    ProgressReporter* external_progress_reporter = nullptr;
   };
 
   explicit TilerProcess(Arguments const& args);
